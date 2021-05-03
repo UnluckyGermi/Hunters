@@ -1,0 +1,8 @@
+name: Hunters
+version: 1.0
+author: UnluckyGermi
+main: main.Main
+commands:
+   hg:
+      description: Lista de comandos del plugin Hunters.
+      usage: /hg <Subcommand>
