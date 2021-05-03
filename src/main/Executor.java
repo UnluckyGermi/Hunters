@@ -86,9 +86,12 @@ public class Executor implements CommandExecutor{
 						if(Main.game != null) {
 							Main.game.pause();
 							if(Main.game.isPaused()) {
-								player.sendMessage("§aGame paused. You can resume it by typing again /hg pause");
+								player.sendMessage("§7Game paused. You can resume it by typing again /hg pause");
+								
 							}
-							
+							else {
+								player.sendMessage("§aGame resumed!");
+							}
 						}
 						else {
 							player.sendMessage("§cYou need to create a game with /hg new");

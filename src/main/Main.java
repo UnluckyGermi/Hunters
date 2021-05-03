@@ -1,11 +1,15 @@
 package main;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
 
 public class Main extends JavaPlugin{
 	
 	public static Main plugin;
 	
 	public static Game game;
+	
+	public static Scoreboard scoreboard;
 	
 	
 	public static String formatSeconds(int timeInSeconds)
@@ -33,6 +37,9 @@ public class Main extends JavaPlugin{
 	
 	public void onEnable() {
 		this.getCommand("hg").setExecutor(new Executor());
+		this.getServer().getPluginManager().registerEvents(new Events(), this);
+		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+		
 		plugin = this;
 	}
 	
