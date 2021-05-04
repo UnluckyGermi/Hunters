@@ -1,4 +1,7 @@
 package main;
+import java.util.UUID;
+
+import org.bukkit.advancement.Advancement;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -6,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class Executor implements CommandExecutor{
 	
-	public static final String[] subcommands = {"new", "start", "stop", "pause"};
+	public static final String[] subcommands = {"new", "start", "stop", "pause", "add", "objective"};
 	
 	
 	private void sendHelp(Player p) {
@@ -31,6 +34,11 @@ public class Executor implements CommandExecutor{
 			else {
 				if(args[0].equalsIgnoreCase(subcommands[0])) {
 					if(args.length == 2) {
+						if(Main.game != null && Main.game.isStarted()) {
+							player.sendMessage("§cThere is a game already started. Use /hg stop to stop the game.");
+							return true;
+						}
+						
 						Player runner = Main.plugin.getServer().getPlayer(args[1]);
 						
 						if(runner == null || !runner.isOnline()) {
@@ -43,7 +51,7 @@ public class Executor implements CommandExecutor{
 						
 					}
 					else {
-						player.sendMessage("§6Usage: /hg new <Runner>");
+						player.sendMessage("§6Usage: /hg new <Runner> [Objective]");
 					}
 				}
 				else if(args[0].equalsIgnoreCase(subcommands[1])) {
@@ -80,6 +88,9 @@ public class Executor implements CommandExecutor{
 							player.sendMessage("§cYou need to create a game with /hg new");
 						}
 					}
+					else {
+						player.sendMessage("§6Usage: /hg stop");
+					}
 				}
 				else if(args[0].equalsIgnoreCase(subcommands[3])) {
 					if(args.length == 1) {
@@ -96,6 +107,49 @@ public class Executor implements CommandExecutor{
 						else {
 							player.sendMessage("§cYou need to create a game with /hg new");
 						}
+					}
+					else {
+						player.sendMessage("§6Usage: /hg pause");
+					}
+				}
+				else if(args[0].equalsIgnoreCase(subcommands[4])) {
+					if(args.length == 2) {
+						if(Main.game != null) {
+							for(UUID uuid : Main.game.getLoggers().keySet()) {
+								if(uuid.toString().equals(args[1])) {
+									Main.game.getLoggers().put(uuid, true);
+									player.sendMessage("§aThe player can now join.");
+									return true;
+								}
+							}
+							player.sendMessage("§cThe player must log in first.");
+						}
+						else {
+							player.sendMessage("§cYou need to create a game with /hg new");
+						}
+					}
+					else {
+						player.sendMessage("§6Usage: /hg add <Player>");
+					}
+				}
+				else if(args[0].equalsIgnoreCase(subcommands[5])) {
+					if(args.length == 2) {
+						if(Main.game != null) {
+							Advancement a = Game.getAdvancement(args[1]);
+							if(a != null) {
+								Main.game.setObjective(a);
+							}
+							else {
+								player.sendMessage("§cThat advancement doesn't exist.");
+							}
+							
+						}
+						else {
+							player.sendMessage("§cYou need to create a game with /hg new");
+						}
+					}
+					else {
+						player.sendMessage("§6Usage: /hg add <Player>");
 					}
 				}
 			}

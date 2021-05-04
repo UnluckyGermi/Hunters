@@ -37,6 +37,7 @@ public class Main extends JavaPlugin{
 	
 	public void onEnable() {
 		this.getCommand("hg").setExecutor(new Executor());
+		this.getCommand("hg").setTabCompleter(new TabComplete());
 		this.getServer().getPluginManager().registerEvents(new Events(), this);
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 		
