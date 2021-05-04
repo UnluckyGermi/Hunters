@@ -138,6 +138,8 @@ public class Executor implements CommandExecutor{
 							Advancement a = Game.getAdvancement(args[1]);
 							if(a != null) {
 								Main.game.setObjective(a);
+								player.sendMessage("§aObjective set to §b" + a.getKey().getKey());
+								Main.game.updateScoreboard();
 							}
 							else {
 								player.sendMessage("§cThat advancement doesn't exist.");

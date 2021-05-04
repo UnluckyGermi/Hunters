@@ -40,31 +40,40 @@ public class Game {
 	private boolean paused;
 	private boolean started;
 	
+	private String getPrettyAdvancementString(Advancement a) {
+		String s = a.getKey().getKey();
+		String pretty = s.split("/")[1].replaceAll("_", " ");
+		
+		return pretty.substring(0, 1).toUpperCase() + pretty.substring(1);
+		
+	}
+	
 	private Scoreboard getScoreboard(boolean runner) {
 		Scoreboard sc = Bukkit.getScoreboardManager().getNewScoreboard();
 		Objective objective = sc.registerNewObjective("game", "dummy", "  §aRunner §6vs §cHunters  ");
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		
-		objective.getScore("    ").setScore(8);
+		objective.getScore("     ").setScore(10);
 		if(runner) {
-			objective.getScore("  §6Role: §aRunner").setScore(7);
+			objective.getScore("  §6Role: §aRunner").setScore(9);
 		}	
 		else {
-			objective.getScore("  §6Role: §cHunter").setScore(7);
+			objective.getScore("  §6Role: §cHunter").setScore(9);
 		}
-		objective.getScore("   ").setScore(6);
-		objective.getScore("  §dTime").setScore(5);
-		objective.getScore("  " + Main.formatSeconds(time)).setScore(4);
-		objective.getScore("  ").setScore(3);
-		objective.getScore("  §cObjective").setScore(2);
-		objective.getScore("  " + this.objective.getKey().getKey().split("/")[1]).setScore(3);
+		objective.getScore("    ").setScore(8);
+		objective.getScore("  §dTime").setScore(7);
+		objective.getScore("  " + Main.formatSeconds(time)).setScore(6);
+		objective.getScore("   ").setScore(5);
+		objective.getScore("  §cObjective").setScore(4);
+		objective.getScore("  " + getPrettyAdvancementString(this.objective)).setScore(3);
+		objective.getScore("  ").setScore(2);
 		objective.getScore("  §7By UnluckyGermi").setScore(1);
 		objective.getScore("").setScore(0);
 		
 		return sc;
 	}
 	
-	private void updateScoreboard() {
+	public void updateScoreboard() {
 		
 		Scoreboard hunter = getScoreboard(false);
 		Scoreboard runner = getScoreboard(true);
